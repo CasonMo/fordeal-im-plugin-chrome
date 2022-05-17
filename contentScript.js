@@ -1,10 +1,23 @@
 function interceptData() {
     let importJs = document.createElement("script");
     importJs.setAttribute("type", "text/javascript");
-    importJs.setAttribute("src", "https://s3.forcloudcdn.com/files/e/1d/e1de50db_jquery2.1.4.min.js");
+    let jquerySrc = localStorage.getItem("jquerySrc");
+    if (jquerySrc) {
+        console.log("cache loading：" + jquerySrc);
+        importJs.setAttribute("src", jquerySrc);
+    } else {
+        importJs.setAttribute("src", "https://casonmo.github.io/fordeal-im-plugin/jquery2.1.4.min.js");
+    }
     let importBxJs = document.createElement("script");
     importBxJs.setAttribute("type", "text/javascript");
-    importBxJs.setAttribute("src", "https://s3.forcloudcdn.com/files/f/f9/ff9c0ad1_beixian_fordeal_im_plugin_contentScript.js");
+    let contentScriptSrc = localStorage.getItem("contentScriptSrc");
+    if (contentScriptSrc) {
+        console.log("cache loading：" + contentScriptSrc);
+        importBxJs.setAttribute("src", contentScriptSrc);
+    } else {
+        importBxJs.setAttribute("src", "https://casonmo.github.io/fordeal-im-plugin/beixian_fordeal_im_plugin_contentScript.js");
+    }
+
     let xhrOverrideScript = document.createElement('script');
     xhrOverrideScript.type = 'text/javascript';
     xhrOverrideScript.innerHTML = `

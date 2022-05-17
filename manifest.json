@@ -1,15 +1,20 @@
 {
   "name": "fordeal售前导购辅助",
   "description": "此扩展程序支持在IM聊天记录窗口自动添加售前导购下单中心跳转按钮",
-  "version": "2.0",
-  "icons":{"16":"icon.png","48":"icon.png","128":"icon.png"},
+  "version": "2.1",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
   "permissions": [
     "*://*.duolainc.com/im/*",
     "*://im.duolainc.com/*"
   ],
   "background": {
     "scripts": [
-      "background.js","jquery.min.js"
+      "background.js",
+      "jquery.min.js"
     ],
     "persistent": true
   },
@@ -20,7 +25,8 @@
         "*://im.duolainc.com/*"
       ],
       "js": [
-        "contentScript.js","jquery.min.js"
+        "contentScript.js",
+        "jquery.min.js"
       ],
       "run_at": "document_start"
     }

@@ -5,19 +5,19 @@ function execBxContent() {
 
 function _execBxContent() {
     setInterval(function () {
-        try{
+        try {
             appendLocationBtn2A()
-        }catch (err){
+        } catch (err) {
             console.log(err)
         }
-        try{
+        try {
             appendBtn2A()
-        }catch (err){
+        } catch (err) {
             console.log(err)
         }
-        try{
+        try {
             appendImg2A()
-        }catch (err){
+        } catch (err) {
             console.log(err)
         }
     }, 2000);
@@ -40,8 +40,8 @@ function appendImg2A() {
         var src = $(this).attr('src');
         if (!$(this).is('.bx_searchimg_added')) {
             // if (src.indexOf("https://s3.forcloudcdn.com") != -1) {
-                $(this).after('<button onclick="add_img_link(this)" class="bx_btn" data-url="' + src + '" style="margin-left: 10px;background-color: #FEDB43;cursor:pointer;border: 1px solid transparent;outline: none;"><i class="el-icon-search" style="font-size:16px;background-color: #FEDB43"></i></button>');
-                $(this).addClass("bx_searchimg_added")
+            $(this).after('<button onclick="add_img_link(this)" class="bx_btn" data-url="' + src + '" style="margin-left: 10px;background-color: #FEDB43;cursor:pointer;border: 1px solid transparent;outline: none;"><i class="el-icon-search" style="font-size:16px;background-color: #FEDB43"></i></button>');
+            $(this).addClass("bx_searchimg_added")
             // }
         }
     })
@@ -107,19 +107,19 @@ function add_img_link(val) {
     var dataUrl = val.getAttribute("data-url");
     console.log("dataUrl:" + dataUrl);
 
-        sleep(50).then(() => {
-            var url = $(".page-iframe").attr("src");
-            if (getParamFromUrl(url, "link") == null || getParamFromUrl(url, "link") == "") {
-                alert("请先点击导单链接辅助按钮或自行打开导单后台输入导单链接")
-            } else {
-                $(".page-iframe").attr("src", "data:text/html;charset=utf-8,正在加载中，请耐心等待！！");
-                url = changeURLArg(url, "searchImageLink", escape(dataUrl));
-                console.log("即将为你查询" + url);
-                sleep(100).then(() => {
-                    $(".page-iframe").attr("src", url);
-                })
-            }
-        })
+    sleep(50).then(() => {
+        var url = $(".page-iframe").attr("src");
+        if (url.indexOf("www.fordeal.com/customer-service-helper/index.html") === -1) {
+            alert("Please click the order guide link mark first or open the shopping guide center and enter the order guide link （请先点击导单链接辅助按钮或自行打开导单后台输入导单链接）")
+        } else {
+            $(".page-iframe").attr("src", "data:text/html;charset=utf-8,正在加载中，请耐心等待！！");
+            url = changeURLArg(url, "searchImageLink", escape(dataUrl));
+            console.log("即将为你查询" + url);
+            sleep(100).then(() => {
+                $(".page-iframe").attr("src", url);
+            })
+        }
+    })
 
 }
 
@@ -129,7 +129,7 @@ function add_location(val) {
     sleep(50).then(() => {
         var url = $(".page-iframe").attr("src");
         if (getParamFromUrl(url, "link") == null || getParamFromUrl(url, "link") == "") {
-            alert("请先点击导单链接辅助按钮或自行打开导单后台输入导单链接")
+            alert("Please click the order guide link mark first or open the shopping guide center and enter the order guide link （请先点击导单链接辅助按钮或自行打开导单后台输入导单链接）")
         } else {
             $(".page-iframe").attr("src", "data:text/html;charset=utf-8,正在加载中，请耐心等待！！");
             url = changeURLArg(url, "whatsapppAddressUrl", escape(dataUrl));
@@ -181,7 +181,13 @@ var flag = false;
 function ship_to(val) {
     var dataUrl = val.getAttribute("data-url");
     console.log("dataUrl:" + dataUrl);
-    var lis = $('.dropdown-btn-menu li');
+    var lis = $('.tool-item-list .tool-item');
+    var pane_splitter_button = $('.pane-splitter-button');
+    for (var i = 0; i < pane_splitter_button.length; i++) {
+        if (pane_splitter_button[i].innerHTML.indexOf('el-icon-d-arrow-left') > -1) {
+            pane_splitter_button[i].click();
+        }
+    }
     flag = false;
     for (var i = 0; i < lis.length; i++) {
         if (lis[i].innerText.indexOf('Shopping guide center') > -1) {
@@ -189,6 +195,16 @@ function ship_to(val) {
             flag = true;
         }
     }
+    if (!flag) {
+        var links = $('.mod-tool-inner-links .link-item');
+        for (var i = 0; i < links.length; i++) {
+            if (links[i].innerHTML.indexOf('Shopping guide center') > -1) {
+                links[i].click();
+                flag = true;
+            }
+        }
+    }
+
     if (flag == false) {
         alert("你没有访问Shopping guide center的权限哦，请联系相关人员开通")
         return;
